@@ -18,11 +18,16 @@ reqwest = {version = "0.12.9", features = ["json"] }
 criterion = "0.5.1" # For benchmarking
 futures-util = "0.3.31"
 dotenv = "0.15"
+lazy_static = "1.5.0"
+jsonrpsee = "0.24.6"
+alloy-rpc-types = "0.6.4"
+
 
 
 [dev-dependencies]
 macros_tests = { path = "macros_tests" }
 serial_test = "3.2.0"
+rand = "0.8.4"
 
 [profile.release]
 lto = "fat"

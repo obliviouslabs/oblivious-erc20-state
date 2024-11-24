@@ -46,7 +46,27 @@ pub fn test_with_server(_attr: TokenStream, item: TokenStream) -> TokenStream {
           panic!("Server failed to start: {}", err);
         });
 
-      println!("Server started");
+      // keep trying to connect to server until it is ready:
+      //
+      let mut client = reqwest::Client::new();
+      let mut start = Instant::now();
+      loop {
+        if start.elapsed() > Duration::from_secs(3600) {
+          panic!("Server failed to start in time");
+        }
+        match client.get("http://127.0.0.1:3000/status").send().await {
+          Ok(response) => {
+            if response.status().is_success() {
+              break;
+            }
+          }
+          Err(_) => {sleep(Duration::from_millis(100)).await}
+        }
+      }
+
+      println!("Server started after {} seconds", start.elapsed().as_secs());
+
+      println!("Running test: {}", stringify!(#func_name));
       // Run the test block
       let result = std::panic::AssertUnwindSafe(async { #block })
                 .catch_unwind()
