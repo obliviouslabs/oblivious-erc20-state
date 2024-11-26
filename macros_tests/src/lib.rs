@@ -64,9 +64,9 @@ pub fn test_with_server(_attr: TokenStream, item: TokenStream) -> TokenStream {
         }
       }
 
-      println!("Server started after {} seconds", start.elapsed().as_secs());
+      tprintln!("Server started after {} seconds", start.elapsed().as_secs());
 
-      println!("Running test: {}", stringify!(#func_name));
+      tprintln!("Running test: {}", stringify!(#func_name));
       // Run the test block
       let result = std::panic::AssertUnwindSafe(async { #block })
                 .catch_unwind()

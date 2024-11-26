@@ -25,7 +25,10 @@ use verified_contract_state::{
   StateVerifier,
 };
 
-use packets::{DBState, MultiQuery, QueryResponseVec, SingleQuery, StatusResponse, StorageResult};
+use packets::{
+  DBState, MultiQuery, QueryResponseVec, SingleQuery, StatusResponse, StorageResult,
+  TDXChallengeResponse,
+};
 
 #[derive(Clone)]
 struct AppState {
@@ -151,4 +154,16 @@ async fn update_handler(
     db_state: state.db_state.lock().unwrap().clone(),
   };
   Ok(Json(response))
+}
+
+// Signs a public key along with a tdx signature.
+// This can be used to announce that the ssl key used is assigned to the tdx enclave only.
+// (iex: the nonce can be the sha256 of the public key)
+//
+async fn tdx_challenge(
+  State(state): State<AppState>,
+) -> Result<Json<TDXChallengeResponse>, ThreadSafeError> {
+  // UNDONE():
+  //
+  Ok(Json(TDXChallengeResponse::default()))
 }

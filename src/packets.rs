@@ -41,3 +41,8 @@ pub struct QueryResponseVec {
   pub db_state: DBState,
   pub resps: Vec<StorageResult>,
 }
+
+#[derive(Serialize, Deserialize, Default)]
+pub struct TDXChallengeResponse {
+  pub public_key: Vec<u8>,
+}

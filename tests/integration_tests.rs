@@ -15,9 +15,8 @@ use reth_revm::primitives::B256;
 use serde_json::json;
 use serial_test::serial;
 use verified_contract_state::{
-  solidity_memory::get_mapping_address, storage_utils::get_storage_proof, utils::b256,
+  solidity_memory::get_mapping_address, storage_utils::get_storage_proof, tprintln, utils::b256,
 };
-
 lazy_static! {
   static ref TEST_ADDRESSES: [B256; 6] = [
     B256::from_slice(&[0u8; 32]),

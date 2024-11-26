@@ -2,3 +2,5 @@
 /checkpoints/
 /target/
 /.env
+/vm/build
+/build
