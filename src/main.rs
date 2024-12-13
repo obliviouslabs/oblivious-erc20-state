@@ -2,7 +2,8 @@ pub mod packets;
 
 use dotenv::dotenv;
 use ordb::ObliviousDB;
-use reth_revm::primitives::{state, B256, U256};
+use reqwest::Client;
+use reth_revm::primitives::{state, Bytes, B256, U256};
 // use verified_contract_state::VerifiedContractState;
 use axum::{
   extract::{Query, State},
@@ -10,6 +11,7 @@ use axum::{
   routing::{get, post},
   Json, Router,
 };
+use serde::Serialize;
 use std::{
   env,
   net::SocketAddr,
@@ -26,8 +28,8 @@ use verified_contract_state::{
 };
 
 use packets::{
-  DBState, MultiQuery, QueryResponseVec, SingleQuery, StatusResponse, StorageResult,
-  TDXChallengeResponse,
+  DBState, MultiQuery, QueryResponseVec, QuotedResponse, SecureHash, SingleQuery, StatusResponse,
+  StorageResult, TDXChallengeResponse,
 };
 
 #[derive(Clone)]
@@ -87,6 +89,8 @@ async fn main() -> Result<(), ThreadSafeError> {
     .route("/status", get(status_handler))
     .route("/storage_at", post(query_handler))
     .route("/storage_at_mq", post(multiquery_handler))
+    .route("/quoted/storage_at", post(query_handler_quoted))
+    .route("/quoted/storage_at_mq", post(multiquery_handler_quoted))
     // .route("/update", post(update_handler))
     .with_state(state);
 
@@ -97,6 +101,37 @@ async fn main() -> Result<(), ThreadSafeError> {
   Ok(())
 }
 
+#[derive(Serialize)]
+struct ReportData {
+  pub report_data: String,
+}
+
+async fn get_tdx_quote(hash: B256) -> Bytes {
+  let client = Client::new();
+  let report_data = ReportData { report_data: hash.to_string() };
+
+  let response = client
+    .get("http+unix://%2Fvar%2Frun%2Ftappd.sock/prpc/Tappd.TdxQuote?json")
+    .json(&report_data)
+    .send()
+    .await;
+
+  match response {
+    Ok(response) => {
+      let status = response.status();
+      if status == StatusCode::OK {
+        let body = response.text().await.unwrap();
+        return Bytes::from(body);
+      }
+    }
+    Err(e) => {
+      eprintln!("Error: {:?}", e);
+    }
+  }
+
+  Bytes::from("")
+}
+
 async fn status_handler(State(state): State<AppState>) -> Json<StatusResponse> {
   let response = StatusResponse {
     message: format!("All good!"),
@@ -105,10 +140,7 @@ async fn status_handler(State(state): State<AppState>) -> Json<StatusResponse> {
   Json(response)
 }
 
-async fn query_handler(
-  State(state): State<AppState>,
-  Json(payload): Json<SingleQuery>,
-) -> Json<QueryResponseVec> {
+async fn query_handler_base(state: &AppState, payload: &SingleQuery) -> QueryResponseVec {
   let db_state = state.db_state.lock().unwrap();
   let db = state.db.lock().unwrap();
   let addr = payload.addr;
@@ -117,16 +149,32 @@ async fn query_handler(
     Some(v) => B256::from_slice(&v),
     None => B256::default(),
   };
-  Json(QueryResponseVec {
+  QueryResponseVec {
     db_state: db_state.clone(),
     resps: vec![StorageResult { addr: payload.addr, value: v }],
-  })
+  }
 }
 
-async fn multiquery_handler(
+async fn query_handler(
   State(state): State<AppState>,
-  Json(payload): Json<MultiQuery>,
+  Json(payload): Json<SingleQuery>,
 ) -> Json<QueryResponseVec> {
+  let qrv = query_handler_base(&state, &payload).await;
+  Json(qrv)
+}
+
+async fn query_handler_quoted(
+  State(state): State<AppState>,
+  Json(payload): Json<SingleQuery>,
+) -> Json<QuotedResponse<QueryResponseVec>> {
+  let qrv = query_handler_base(&state, &payload).await;
+  let hash = qrv.secure_hash();
+  let quote = get_tdx_quote(hash).await;
+
+  Json(QuotedResponse { response: qrv, quote })
+}
+
+async fn multiquery_handler_base(state: &AppState, payload: &MultiQuery) -> QueryResponseVec {
   let db_state = state.db_state.lock().unwrap();
   let db = state.db.lock().unwrap();
   let mut resps = Vec::new();
@@ -138,7 +186,26 @@ async fn multiquery_handler(
     };
     resps.push(StorageResult { addr: addr.clone(), value: v });
   }
-  Json(QueryResponseVec { db_state: db_state.clone(), resps })
+  QueryResponseVec { db_state: db_state.clone(), resps }
+}
+
+async fn multiquery_handler(
+  State(state): State<AppState>,
+  Json(payload): Json<MultiQuery>,
+) -> Json<QueryResponseVec> {
+  let qrv = multiquery_handler_base(&state, &payload).await;
+  Json(qrv)
+}
+
+async fn multiquery_handler_quoted(
+  State(state): State<AppState>,
+  Json(payload): Json<MultiQuery>,
+) -> Json<QuotedResponse<QueryResponseVec>> {
+  let qrv = multiquery_handler_base(&state, &payload).await;
+  let hash = qrv.secure_hash();
+  let quote = get_tdx_quote(hash).await;
+
+  Json(QuotedResponse { response: qrv, quote })
 }
 
 async fn update_handler(
