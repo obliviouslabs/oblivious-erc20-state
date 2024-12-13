@@ -1,0 +1,11 @@
+[patch.crates-io]
+ordb = { path = "./external/ordb" }
+verified_contract_state = { path = "./external/verified_contract_state" }
+
+[patch."ssh://git@github.com/xtrm0/verified_contract_state.git"]
+ordb = { path = "./external/ordb" }
+verified_contract_state = { path = "./external/verified_contract_state" }
+
+[patch."ssh://git@github.com/obliviouslabs/ordb.git"]
+ordb = { path = "./external/ordb" }
+verified_contract_state = { path = "./external/verified_contract_state" }

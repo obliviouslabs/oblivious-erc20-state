@@ -9,6 +9,7 @@ reth-revm = { git = "https://github.com/paradigmxyz/reth", tag = "v1.1.2" }
 
 verified_contract_state = { git = "ssh://git@github.com/xtrm0/verified_contract_state.git" }
 ordb = { git = "ssh://git@github.com/obliviouslabs/ordb.git" }
+
 axum = { version = "0.7.9", features = ["macros"] }
 tokio = { version = "1.41.1", features = ["full"] }
 tokio-test = "0.4.4"

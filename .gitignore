@@ -4,3 +4,4 @@
 /.env
 /vm/build
 /build
+/docker/external/
