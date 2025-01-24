@@ -8,7 +8,7 @@ reth-primitives = { git = "https://github.com/paradigmxyz/reth", tag = "v1.1.2"}
 reth-revm = { git = "https://github.com/paradigmxyz/reth", tag = "v1.1.2" }
 
 verified_contract_state = { git = "https://github.com/obliviouslabs/verified_contract_state.git" }
-ordb = { git = "ssh://git@github.com/obliviouslabs/ordb.git" }
+ordb = { git = "https://github.com/obliviouslabs/ordb.git" }
 
 
 axum = { version = "0.7.9", features = ["macros"] }

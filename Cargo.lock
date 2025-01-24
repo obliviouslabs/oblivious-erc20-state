@@ -4161,7 +4161,7 @@ checksum = "04744f49eae99ab78e0d5c0b603ab218f515ea8cfe5a456d7629ad883a3b6e7d"
 [[package]]
 name = "ordb"
 version = "0.1.0"
-source = "git+ssh://git@github.com/obliviouslabs/ordb.git#d722479b13616602a66f57a9585ad4212fd77b22"
+source = "git+https://github.com/obliviouslabs/ordb.git#d722479b13616602a66f57a9585ad4212fd77b22"
 dependencies = [
  "aes-gcm 0.11.0-pre.2",
  "bincode",

@@ -24,7 +24,6 @@ RUN tar -xzf ./foundry_nightly_linux_amd64.tar.gz -C /usr/local/bin
 
 # Install the TDX checker
 COPY --from=go-tdx-builder /root/dummy-tdx-dcap/dcap-verifier /usr/local/bin
-COPY --from=go-tdx-builder /bin/sh /bin/sh
 
 # Install rust and cargo
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -42,12 +41,10 @@ COPY ./.rustfmt.toml .
 
 COPY ./Cargo.lock .
 COPY ./Cargo.toml .
-COPY ./docker/Cargo.patch.toml .
 COPY ./.env .
 
 COPY ./run.sh .
 
-RUN cat Cargo.patch.toml >> Cargo.toml
 RUN cat Cargo.toml
 RUN ls -la ./external
 RUN cargo build --release
