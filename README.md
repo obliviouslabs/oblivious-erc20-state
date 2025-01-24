@@ -18,7 +18,9 @@ First, create a .env file with the any geth compatible api server url, for insta
 GETH_URL=https://eth-mainnet.g.alchemy.com/v2/your_api_key
 ```
 
-Just build and deploy the docker-compose:
+Then, make sure you have tappd running on the machine. For testing purposes you can use [https://github.com/Leechael/tappd-simulator](Leechael/tappd-simulator), or just comment out the line about tappd in the Dockerfile (in which case all attestations will be empty).
+
+Then, just build and deploy the docker-compose:
 
 ```
   docker build -t oblivious_erc20_state .
@@ -69,4 +71,5 @@ After starting, the server doesn't update automatically to the most recent block
 
 # Change used token
 
-By default the chosen contract is wbtc. To change the contract, change the WBTCMemoryUpdates with the update handler for the specific contract. You can take a look at obliviouslabs/verified-erc20-state to verify this.
+By default the chosen contract is wbtc. To change the contract, change the WBTCMemoryUpdates with the update handler for the specific contract, note that the storage slot might also change when you calculate the memory address of a given account. You can take a look at obliviouslabs/verified-erc20-state to verify this and get storage slots for some other contracts.
+
