@@ -3,7 +3,7 @@ services:
   replicatoor:
     image: oblivious_erc20_state
     volumes:
-      - /var/run/tappd.sock:/var/run/tappd.sock
+      - /home/xtrm0/ol/erc20-status/tappd-simulator/tappd.sock:/var/run/tappd.sock
       - ./checkpoints/:/workdir/checkpoints/
     ports:
       - "3000:3000"

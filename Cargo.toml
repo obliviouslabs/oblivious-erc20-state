@@ -10,6 +10,7 @@ reth-revm = { git = "https://github.com/paradigmxyz/reth", tag = "v1.1.2" }
 verified_contract_state = { git = "ssh://git@github.com/xtrm0/verified_contract_state.git" }
 ordb = { git = "ssh://git@github.com/obliviouslabs/ordb.git" }
 
+
 axum = { version = "0.7.9", features = ["macros"] }
 tokio = { version = "1.41.1", features = ["full"] }
 tokio-test = "0.4.4"
@@ -22,6 +23,10 @@ dotenv = "0.15"
 lazy_static = "1.5.0"
 jsonrpsee = "0.24.6"
 alloy-rpc-types = "0.6.4"
+hyper = { version = "1.5.2", features = ["full"] }
+hyperlocal = "0.9.1"
+http-body-util = "0.1.2"
+hyper-util = { version = "0.1.10", features = ["full"] }
 
 
 

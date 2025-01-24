@@ -56,6 +56,16 @@ where
   pub quote: Bytes,
 }
 
+impl SecureHash for StatusResponse {
+  fn secure_hash(&self) -> B256 {
+    let mut bytes = Vec::new();
+    bytes.extend_from_slice(&self.message.as_bytes());
+    bytes.extend_from_slice("|".as_bytes());
+    bytes.extend_from_slice(&self.db_state.secure_hash().as_slice());
+    keccak256(&bytes)
+  }
+}
+
 impl SecureHash for DBState {
   fn secure_hash(&self) -> B256 {
     let mut bytes = Vec::new();
