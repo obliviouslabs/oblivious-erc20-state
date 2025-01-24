@@ -90,8 +90,3 @@ impl SecureHash for QueryResponseVec {
     keccak256(&bytes)
   }
 }
-
-#[derive(Serialize, Deserialize, Default)]
-pub struct TDXChallengeResponse {
-  pub public_key: Vec<u8>,
-}

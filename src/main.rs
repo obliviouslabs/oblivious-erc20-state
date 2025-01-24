@@ -33,7 +33,7 @@ use verified_contract_state::{
 
 use packets::{
   DBState, MultiQuery, QueryResponseVec, QuotedResponse, SecureHash, SingleQuery, StatusResponse,
-  StorageResult, TDXChallengeResponse,
+  StorageResult,
 };
 
 #[derive(Clone)]
@@ -274,16 +274,4 @@ async fn update_handler(State(state): State<AppState>) -> Json<StatusResponse> {
   let response =
     StatusResponse { message: format!("Updated {cnt} addresses"), db_state: db_state.clone() };
   Json(response)
-}
-
-// Signs a public key along with a tdx signature.
-// This can be used to announce that the ssl key used is assigned to the tdx enclave only.
-// (iex: the nonce can be the sha256 of the public key)
-//
-async fn tdx_challenge(
-  State(state): State<AppState>,
-) -> Result<Json<TDXChallengeResponse>, ThreadSafeError> {
-  // UNDONE():
-  //
-  Ok(Json(TDXChallengeResponse::default()))
 }
