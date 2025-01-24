@@ -46,7 +46,7 @@ Same request, using the quoted api:
 curl http://localhost:3000/storage_at -X POST -H 'Content-Type: application/json' --data '{"addr": "0000000000000000000000000000000000000000000000000000000000000000"}'
 ```
 
-In order to calculate the memory address for a given token wallet, you need to compute the memory address that corresponds to that token address. You need to know the slot of the addr -> mapping, and the address and then calculate kekkac(addr . slot). For instance, for wbtc, the slot is 0 and let's see how to get the balance for wallet address '0x0000000000000000000000005ee5bf7ae06d1be5997a1a72006fe6c607ec6de8' (you need cast installed):
+In order to calculate the memory address for a given token wallet, you need to compute the memory address that corresponds to that token address. You need to know the slot of the addr -> mapping, and the address and then calculate kekkac(addr . slot). For instance, for wbtc, the slot is 0 and let's see how to get the balance for wallet address '0x0000000000000000000000005ee5bf7ae06d1be5997a1a72006fe6c607ec6de8' (you need [https://github.com/foundry-rs/foundry](cast) installed):
 ```
 export SLOT_32=$(cast --to-bytes32 0)
 export ACCOUNT_32=$(cast --to-uint256 0x5ee5bf7ae06d1be5997a1a72006fe6c607ec6de8)
