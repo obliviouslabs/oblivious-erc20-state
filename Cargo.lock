@@ -7812,7 +7812,7 @@ dependencies = [
 [[package]]
 name = "verified_contract_state"
 version = "0.1.0"
-source = "git+ssh://git@github.com/xtrm0/verified_contract_state.git#1f7579c9c17f9829dc8b5a61696b7cf8d50da7ff"
+source = "git+https://github.com/obliviouslabs/verified_contract_state.git#d31a1eeba733423efae8e549b53299f289a30969"
 dependencies = [
  "alloy-json-rpc",
  "alloy-primitives",
