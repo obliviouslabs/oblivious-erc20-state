@@ -22,7 +22,7 @@ Ensure the following are installed:
 
 1. **[Docker](https://www.docker.com/)**: For building and running the project.
 2. **[Foundryup](https://book.getfoundry.sh/getting-started/installation)** and `cast`: For querying wallet balances.
-3. **[Optional] tappd service or [Leechael/tappd-simulator](https://github.com/Leechael/tappd-simulator)**: To avoid "Connection Refused" error in Docker.
+3. **[Optional] tappd service or [Leechael/tappd-simulator](https://github.com/Leechael/tappd-simulator)**: To generate attestation reports for queries (otherwise every attestation will be empty and a "Connection Refused" error will appear in Docker logs).
 
 ---
 
