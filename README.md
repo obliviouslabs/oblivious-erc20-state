@@ -38,6 +38,7 @@ Ensure the following are installed:
    docker build -t oblivious_erc20_state .
    docker-compose up
 The server will start running, listening on port 3000. 
+The first time it starts, it should take a bit to fetch and verify all the memory addresses using geth api. Afterwards, it will cache them in the checkpoints folder and be much faster (it still uses verified_contract_state to check for address integrity).
 
 ---
 

@@ -40,3 +40,8 @@ lto = "fat"
 codegen-units = 1
 strip = true
 opt-level = 3
+
+# Adds benches/benchmark.rs as a benchmark:
+[[bench]]
+name = "benchmark"
+harness = false
