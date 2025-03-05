@@ -17,7 +17,6 @@ tokio-test = "0.4.4"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 reqwest = {version = "0.12.9", features = ["json"] }
-criterion = "0.5.1" # For benchmarking
 futures-util = "0.3.31"
 dotenv = "0.15"
 lazy_static = "1.4.0"
@@ -34,6 +33,7 @@ hyper-util = { version = "0.1.10", features = ["full"] }
 macros_tests = { path = "macros_tests" }
 serial_test = "3.2.0"
 rand = "0.8.4"
+criterion = "0.5.1" # For benchmarking
 
 [profile.release]
 lto = "fat"
