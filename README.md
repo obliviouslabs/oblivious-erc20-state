@@ -35,6 +35,7 @@ Ensure the following are installed:
    GETH_URL=https://eth-mainnet.g.alchemy.com/v2/your_api_key
 3. Build and deploy the project using Docker:
    ```bash
+   cargo clean
    docker build -t oblivious_erc20_state .
    docker-compose up
 The server will start running, listening on port 3000. 

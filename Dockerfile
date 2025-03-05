@@ -35,7 +35,6 @@ WORKDIR /workdir
 COPY ./src ./src
 COPY ./macros_tests ./macros_tests
 COPY ./tests ./tests
-COPY ./docker/external ./external
 COPY ./benches ./benches
 COPY ./.rustfmt.toml .
 
@@ -46,7 +45,6 @@ COPY ./.env .
 COPY ./run.sh .
 
 RUN cat Cargo.toml
-RUN ls -la ./external
 RUN cargo build --release
 
 # ENTRYPOINT [ ]
