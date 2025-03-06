@@ -11,7 +11,7 @@ verified_contract_state = { git = "https://github.com/obliviouslabs/verified_con
 ordb = { git = "https://github.com/obliviouslabs/ordb.git" }
 
 
-axum = { version = "0.7.9", features = ["macros"] }
+axum = { version = "0.8.1", features = ["macros"] }
 tokio = { version = "1.40.0", features = ["full"] }
 tokio-test = "0.4.4"
 serde = { version = "1.0", features = ["derive"] }
@@ -26,6 +26,7 @@ hyper = { version = "1.5.2", features = ["full"] }
 hyperlocal = "0.9.1"
 http-body-util = "0.1.2"
 hyper-util = { version = "0.1.10", features = ["full"] }
+tower-http = { version = "0.6.2", features = ["cors"] } 
 
 
 

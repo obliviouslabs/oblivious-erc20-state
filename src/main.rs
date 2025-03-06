@@ -20,6 +20,7 @@ use std::error::Error;
 use std::{env, io::Read, sync::Arc};
 use tokio::io;
 use tokio::sync::Mutex;
+use tower_http::cors::{Any, CorsLayer};
 
 use verified_contract_state::{
   instantiations::{
@@ -90,6 +91,9 @@ async fn main() -> Result<(), ThreadSafeError> {
     db_state.contract_address = state_verifier.contract_address();
     tprintln!("DB state initialized");
   }
+  let cors = CorsLayer::new()
+    .allow_origin(Any);
+
   let app = Router::new()
     .route("/status", get(status_handler))
     .route("/update", get(update_handler))
@@ -98,7 +102,8 @@ async fn main() -> Result<(), ThreadSafeError> {
     .route("/quoted/status", get(status_handler_quoted))
     .route("/quoted/storage_at", post(query_handler_quoted))
     .route("/quoted/storage_at_mq", post(multiquery_handler_quoted))
-    .with_state(state);
+    .with_state(state)
+    .layer(cors);
 
   let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
   println!("Server running at http://{}", listener.local_addr().unwrap());
