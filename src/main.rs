@@ -92,7 +92,9 @@ async fn main() -> Result<(), ThreadSafeError> {
     tprintln!("DB state initialized");
   }
   let cors = CorsLayer::new()
-    .allow_origin(Any);
+    .allow_origin(Any)
+    .allow_methods(Any)
+    .allow_headers(Any);
 
   let app = Router::new()
     .route("/status", get(status_handler))
